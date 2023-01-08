@@ -34,7 +34,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: AZ AKS Create
-        run: az aks create --resource-group $RGNAME --name $AKSNAME --node-count 2 --enable-addons http_application_routing --generate-ssh-keys --node-vm-size Standard_B2s --network-plugin azure --service-principal ${{ secrets.clientId }} --client-secret ${{ secrets.clientSecret }}
+        run: az aks create --resource-group $RGNAME --name $AKSNAME --node-count 2 --enable-addons http_application_routing --generate-ssh-keys --node-vm-size Standard_B2s --network-plugin azure
       - name: AZ AKS Nodepool Add
         run: az aks nodepool add --resource-group $RGNAME --cluster-name $AKSNAME --name userpool --node-count 2 --node-vm-size Standard_B2s
       # Manually Create a Service Principal and configure Github Actions to use sp to connect to Subscription.
