@@ -6,7 +6,11 @@ name: Manual AKS cluster deploy
 # Based on MS-Learn: Exercise - Create an Azure Kubernetes Service cluster
 # https://learn.microsoft.com/en-gb/training/modules/aks-deploy-container-app/3-exercise-create-aks-cluster
 
-# This will create a new AKS cluster with 2 nodes and vm-size set to Standard_B2s
+# This will create: 
+# 1 AKS cluster 
+# 2 nodes - System mode - node-vm-size Standard_B2s
+# 2 nodes - User mode  - node-vm-size Standard_B2s
+# 1 registry attached to the cluster
 on:
   workflow_dispatch:
 
@@ -39,6 +43,6 @@ jobs:
         run: az aks nodepool add --resource-group $RGNAME --cluster-name $AKSNAME --name userpool --node-count 2 --node-vm-size Standard_B2s
       # Manually Create a Service Principal and configure Github Actions to use sp to connect to Subscription.
       - name: Az ACR Create
-        run: az acr create -n $ACRNAME -g $RGNAME -l notheurope --sku Basic
+        run: az acr create -n $ACRNAME -g $RGNAME -l northeurope --sku Basic
       - name: Az ACR attach to AKS
         run: az aks update -n $AKSNAME -g $RGNAME --attach-acr $ACRNAME
