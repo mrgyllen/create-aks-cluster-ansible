@@ -17,7 +17,7 @@ on:
 # Env to set reusable variables
 env:
   RGNAME: rg-k8s-test # A pre created resourcegroup: az group create --name=$RESOURCE_GROUP --location=$LOCATION
-  ACRNAME: acr-k8s-test
+  ACRNAME: acrk8stest
   AKSNAME: aks-k8s-test
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
