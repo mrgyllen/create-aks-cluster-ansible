@@ -2,14 +2,17 @@
 
 name: Manual AKS cluster deploy
 
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
+# This is a private excercise to use GitHub Actions to deploy a AKS cluster.
+# Based on MS-Learn: Exercise - Create an Azure Kubernetes Service cluster
+# https://learn.microsoft.com/en-gb/training/modules/aks-deploy-container-app/3-exercise-create-aks-cluster
+
+# This will create a new AKS cluster with 2 nodes and vm-size set to Standard_B2s
 on:
   workflow_dispatch:
 
 # Env to set reusable variables
 env:
-  RGNAME: rg-k8s-test # A pre created resourcegroup
+  RGNAME: rg-k8s-test # A pre created resourcegroup: az group create --name=$RESOURCE_GROUP --location=$LOCATION
   ACRNAME: acr-k8s-test
   AKSNAME: aks-k8s-test
 
@@ -31,9 +34,11 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: AZ AKS Create
-        run: az aks create -n $AKSNAME -g $RGNAME --generate-ssh-keys -l eastus --service-principal ${{ secrets.clientId }} --client-secret ${{ secrets.clientSecret }}
+        run: az aks create --resource-group $RGNAME --name $AKSNAME --node-count 2 --enable-addons http_application_routing --generate-ssh-keys --node-vm-size Standard_B2s --network-plugin azure --service-principal ${{ secrets.clientId }} --client-secret ${{ secrets.clientSecret }}
+      - name: AZ AKS Nodepool Add
+        run: az aks nodepool add --resource-group $RGNAME --cluster-name $AKSNAME --name userpool --node-count 2 --node-vm-size Standard_B2s
       # Manually Create a Service Principal and configure Github Actions to use sp to connect to Subscription.
       - name: Az ACR Create
-        run: az acr create -n $ACRNAME -g $RGNAME -l eastus --sku Basic
+        run: az acr create -n $ACRNAME -g $RGNAME -l notheurope --sku Basic
       - name: Az ACR attach to AKS
         run: az aks update -n $AKSNAME -g $RGNAME --attach-acr $ACRNAME
