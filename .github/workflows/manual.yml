@@ -9,9 +9,9 @@ on:
 
 # Env to set reusable variables
 env:
-  RGNAME: rgcicd4aksaug9
-  ACRNAME: acr4aksaug9
-  AKSNAME: aks4cicdaug9
+  RGNAME: rg-k8s-test # A pre created resourcegroup
+  ACRNAME: acr-k8s-test
+  AKSNAME: aks-k8s-test
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -30,8 +30,6 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Az RG Create
-        run: az group create --name $RGNAME -l eastus
       - name: AZ AKS Create
         run: az aks create -n $AKSNAME -g $RGNAME --generate-ssh-keys -l eastus --service-principal ${{ secrets.clientId }} --client-secret ${{ secrets.clientSecret }}
       # Manually Create a Service Principal and configure Github Actions to use sp to connect to Subscription.
