@@ -1,0 +1,38 @@
+- name: Create Azure Kubernetes Service
+  hosts: localhost
+  connection: local
+  vars:
+    resource_group: gyllencreutz-rg
+    location: northeurope
+    aks_name: gyllencreutz-aks
+    username: azureuser
+    ssh_key: ${{ secrets.SSH_KEY }}
+    client_id: ${{ secrets.CLIENT_ID }}
+    client_secret: ${{ secrets.CLIENT_SECRET }}
+    aks_version: "1.25.2"
+  tasks:
+  - name: Create resource group
+    azure_rm_resourcegroup:
+      name: "{{ resource_group }}"
+      location: "{{ location }}"
+  - name: Create a managed Azure Container Services (AKS) cluster
+    azure_rm_aks:
+      name: "{{ aks_name }}"
+      location: "{{ location }}"
+      resource_group: "{{ resource_group }}"
+      dns_prefix: "{{ aks_name }}"
+      enable_rbac: yes
+      kubernetes_version: "{{ aks_version }}"
+      linux_profile:
+        admin_username: "{{ username }}"
+        ssh_key: "{{ ssh_key }}"
+      service_principal:
+        client_id: "{{ client_id }}"
+        client_secret: "{{ client_secret }}"
+      agent_pool_profiles:
+        - name: default
+          count: 1
+          vm_size: Standard_B2s
+          os_disk_size_gb: 32
+      tags:
+        Environment: Dev
