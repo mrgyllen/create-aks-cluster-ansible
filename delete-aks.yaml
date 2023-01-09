@@ -1,0 +1,16 @@
+- name: Delete a managed Azure Container Services (AKS) cluster
+  hosts: localhost
+  connection: local
+  vars:
+    resource_group: gyllencreutz-rg
+    aks_name: gyllencreutz-aks
+  tasks:
+    - name: Delete resource group
+      azure_rm_aks:
+        name: "{{ aks_name }}"
+        resource_group: "{{ resource_group }}"
+        state: absent
+    - name: Create resource group
+      azure_rm_resourcegroup:
+        name: "{{ resource_group }}"
+        state: absent
