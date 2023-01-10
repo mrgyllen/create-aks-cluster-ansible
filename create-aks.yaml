@@ -32,6 +32,12 @@
       agent_pool_profiles:
         - name: default
           count: 1
+          mode: System
+          vm_size: Standard_B2s
+          os_disk_size_gb: 32
+        - name: user
+          count: 1
+          mode: User
           vm_size: Standard_B2s
           os_disk_size_gb: 32
       tags:
