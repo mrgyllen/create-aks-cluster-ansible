@@ -14,11 +14,13 @@ jobs:
       run: |
         pip install -U pip setuptools
         pip install 'ansible[azure]'
+        wget -nv -q https://raw.githubusercontent.com/ansible-collections/azure/dev/requirements-azure.txt
+        pip install -r requirements-azure.txt
       
     - name: Login via Az module
       uses: azure/login@v1.1
       with:
-        creds: ${{secrets.AZ_CREDENTIALS}}
+        creds: ${{secrets.AZURE_CREDENTIALS}}
             
     - name: Run Ansible Playbook
       run: ansible-playbook delete-aks.yaml -vvv
