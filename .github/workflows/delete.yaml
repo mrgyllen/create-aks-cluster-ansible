@@ -1,0 +1,24 @@
+name: Delete
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Ansible Azure
+      run: |
+        pip install -U pip setuptools
+        pip install 'ansible[azure]'
+      
+    - name: Login via Az module
+      uses: azure/login@v1.1
+      with:
+        creds: ${{secrets.AZ_CREDENTIALS}}
+            
+    - name: Run Ansible Playbook
+      run: ansible-playbook delete-aks.yaml -vvv
