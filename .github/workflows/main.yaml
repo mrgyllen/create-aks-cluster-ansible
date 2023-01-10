@@ -20,12 +20,6 @@ jobs:
       run: |
         pip install -U pip setuptools
         pip install 'ansible[azure]'
-        #pip install ansible-lint
-        
-    #- name: Run ansible-lint
-      #uses: ansible/ansible-lint-action@master
-      #with:
-      #  targets: "create-aks.yaml"
       
     - name: Login via Az module
       uses: azure/login@v1.1
