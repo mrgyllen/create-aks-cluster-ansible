@@ -30,7 +30,7 @@ jobs:
     - name: Login via Az module
       uses: azure/login@v1.1
       with:
-        creds: ${{secrets.AZ_CREDENTIALS}}
+        creds: ${{secrets.AZURE_CREDENTIALS}}
             
     - name: Run Ansible Playbook
       run: ansible-playbook create-aks.yaml -vvv --extra-vars "ssh_key='${{ secrets.SSH_KEY }}' client_id=${{ secrets.CLIENT_ID }} client_secret=${{ secrets.CLIENT_SECRET }}"
