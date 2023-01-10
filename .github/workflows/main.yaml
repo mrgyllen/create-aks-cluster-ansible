@@ -1,0 +1,30 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+            
+    - name: Install Ansible Azure
+      run: |
+        pip install -U pip setuptools
+        pip install 'ansible[azure]'
+      
+    - name: ansible-lint
+      uses: ansible/ansible-lint-action@master
+      with:
+        targets: "create-aks.yaml"
+      
+    - name: Login via Az module
+      uses: azure/login@v1.1
+      with:
+        creds: ${{secrets.AZ_CREDENTIALS}}
+            
+    - name: Run Ansible Playbook
+      run: ansible-playbook create-aks.yaml -vvv --extra-vars "ssh_key='${{ secrets.SSH_KEY }}' client_id=${{ secrets.CLIENT_ID }} client_secret=${{ secrets.CLIENT_SECRET }}"
