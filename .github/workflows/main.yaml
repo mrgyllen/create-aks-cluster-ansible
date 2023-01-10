@@ -10,14 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # needed for progressive mode to work
             
     - name: Install Ansible Azure
       run: |
         pip install -U pip setuptools
         pip install 'ansible[azure]'
-      
-    - name: ansible-lint
+        
+    - name: Run ansible-lint
       uses: ansible/ansible-lint-action@master
       with:
         targets: "create-aks.yaml"
