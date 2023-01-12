@@ -33,18 +33,15 @@ Sample playbooks for deploying a basic Azure kubernetes cluster with Ansible.
     * `CLIENT_SECRET` set to the `clientSecret` from the JSON block.
     * `SSH_KEY` set to single line SSH RSA from the public key output.
 
-- Create GitHub variables, used in: `create-aks.yaml`
+- Set Ansible variables, used in: `create-aks.yaml`
 
 ```yaml
   vars:
-    resource_group: ${{ vars.RESOURCE_GROUP }}
-    location: ${{ vars.LOCATION }}
-    aks_name: ${{ vars.AKS_NAME }}
-    username: ${{ vars.ADMIN_USERNAME }}
-    ssh_key: ${{ secrets.SSH_KEY }}
-    client_id: ${{ secrets.CLIENT_ID }}
-    client_secret: ${{ secrets.CLIENT_SECRET }}
-    aks_version: ${{ secrets.AKS_VERSION }}
+    resource_group: gyllencreutz-rg
+    location: northeurope
+    aks_name: gyllencreutz-aks
+    username: azureuser
+    aks_version: 1.25.2
 ```
 
 
