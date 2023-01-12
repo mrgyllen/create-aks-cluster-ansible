@@ -2,14 +2,14 @@
   hosts: localhost
   connection: local
   vars:
-    resource_group: gyllencreutz-rg
-    location: northeurope
-    aks_name: gyllencreutz-aks
-    username: azureuser
+    resource_group: ${{ vars.RESOURCE_GROUP }}
+    location: ${{ vars.LOCATION }}
+    aks_name: ${{ vars.AKS_NAME }}
+    username: ${{ vars.ADMIN_USERNAME }}
     ssh_key: ${{ secrets.SSH_KEY }}
     client_id: ${{ secrets.CLIENT_ID }}
     client_secret: ${{ secrets.CLIENT_SECRET }}
-    aks_version: "1.25.2"
+    aks_version: ${{ secrets.AKS_VERSION }}
   tasks:
   - name: Create resource group
     azure_rm_resourcegroup:
