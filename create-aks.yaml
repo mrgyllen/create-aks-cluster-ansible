@@ -2,9 +2,9 @@
   hosts: localhost
   connection: local
   vars:
-    resource_group: gyllencreutz-rg
+    resource_group: aks-ansible-rg
     location: northeurope
-    aks_name: gyllencreutz-aks
+    aks_name: aks-ansible
     username: azureuser
     ssh_key: ${{ secrets.SSH_KEY }}"
     client_id: ${{ secrets.CLIENT_ID }}
