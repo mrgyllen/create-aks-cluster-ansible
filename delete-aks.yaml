@@ -2,8 +2,8 @@
   hosts: localhost
   connection: local
   vars:
-    resource_group: gyllencreutz-rg
-    aks_name: gyllencreutz-aks
+    resource_group: aks-ansible-rg
+    aks_name: aks-ansible
   tasks:
     - name: Delete resource group
       azure_rm_aks:
