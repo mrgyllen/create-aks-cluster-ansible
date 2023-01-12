@@ -9,25 +9,47 @@
   
 # Create AKS Cluster
 
-Sample playbooks for deploying a basic Azure kubernetes cluster with AnsibleThis repository contains examples and best practices for building Ansible Playbooks for Azure.
+Sample playbooks for deploying a basic Azure kubernetes cluster with Ansible.
 
 ## Prerequisites
 
-- Azure Account. If you don't have one, get a [free one](https://azure.microsoft.com/en-us/free/).
+- You need an Azure Account an if you don't have one, get a [free one](https://azure.microsoft.com/en-us/free/).
 
-- Create a service principal (replace [subscription-id] with your id) and copy the JSON output:
+- Create a service principal (replace [ServicePrincipalName] with a name and [subscription-id] with your id) and copy the JSON output:
 
-    `az ad sp create-for-rbac -n AzCI_ServicePrincipal --role Contributor --scopes /subscriptions/[subscription-id] --sdk-auth`
+    `az ad sp create-for-rbac -n [ServicePrincipalName] --role Contributor --scopes /subscriptions/[subscription-id] --sdk-auth`
 
-  Create project secrets based on above JSON output:
+- You need a SSH RSA key to be used as the public key to connect to the cluster.
+  
+  <code>$ ssh-keygen -t rsa -b 4096</code>
+  
+  View your public key:
+  <code>$ cat ~/.ssh/id_rsa.pub</code>
 
-    * `AZURE_CREDENTIALS` set to use the entire JSON block. This is used by the `azure\login` GitHub action to provision the cluster
-    * `CLIENT_ID` set to the `clientId` from the JSON block. This is used to allow the SP to connect to the cluster
-    * `CLIENT_SECRET` set to the `clientSecret` from the JSON block. This is used to allow the SP to connect to the cluster
-    * `SSH_KEY` set to single line SSH RSA from the JSON block. This is used as the public key to connect to the cluster. This can be found in C:\Users\\[username]\\.ssh\id_rsa.pub
+- Create GitHub secrets (to be used by the github actions and ansible) based on the above JSON output:
+
+    * `AZURE_CREDENTIALS` set to use the entire JSON block.
+    * `CLIENT_ID` set to the `clientId` from the JSON block.
+    * `CLIENT_SECRET` set to the `clientSecret` from the JSON block.
+    * `SSH_KEY` set to single line SSH RSA from the public key output.
+
+- Set GitHub variables, used in: `create-aks.yaml`
+
+```yaml
+  vars:
+    resource_group: ${{ vars.RESOURCE_GROUP }}
+    location: ${{ vars.LOCATION }}
+    aks_name: ${{ vars.AKS_NAME }}
+    username: ${{ vars.ADMIN_USERNAME }}
+    ssh_key: ${{ secrets.SSH_KEY }}
+    client_id: ${{ secrets.CLIENT_ID }}
+    client_secret: ${{ secrets.CLIENT_SECRET }}
+    aks_version: ${{ secrets.AKS_VERSION }}
+```
+
 
 ## How to run
-
+  You can manually 
 
 
 ## Resources
