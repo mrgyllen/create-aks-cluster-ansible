@@ -13,27 +13,27 @@ Sample playbooks for deploying a basic Azure kubernetes cluster with Ansible.
 
 ## Prerequisites
 
-- You need an Azure Account an if you don't have one, get a [free one](https://azure.microsoft.com/en-us/free/).
+- You need an Azure account and if you don't have one, get a [free one](https://azure.microsoft.com/en-us/free/).
 
 - Create a service principal (replace [ServicePrincipalName] with a name and [subscription-id] with your id) and copy the JSON output:
 
     `az ad sp create-for-rbac -n [ServicePrincipalName] --role Contributor --scopes /subscriptions/[subscription-id] --sdk-auth`
 
-- You need a SSH RSA key to be used as the public key to connect to the cluster.
+- You need an SSH RSA key to be used as the public key to connect to the cluster.
   
   <code>$ ssh-keygen -t rsa -b 4096</code>
   
   View your public key:
   <code>$ cat ~/.ssh/id_rsa.pub</code>
 
-- Create GitHub secrets (to be used by the github actions and ansible) based on the above JSON output:
+- Create GitHub secrets (to be used by GitHub actions and Ansible) based on the above JSON output:
 
-    * `AZURE_CREDENTIALS` set to use the entire JSON block.
+    * `AZURE_CREDENTIALS` set and use the entire JSON block.
     * `CLIENT_ID` set to the `clientId` from the JSON block.
     * `CLIENT_SECRET` set to the `clientSecret` from the JSON block.
     * `SSH_KEY` set to single line SSH RSA from the public key output.
 
-- Set GitHub variables, used in: `create-aks.yaml`
+- Create GitHub variables, used in: `create-aks.yaml`
 
 ```yaml
   vars:
@@ -49,17 +49,19 @@ Sample playbooks for deploying a basic Azure kubernetes cluster with Ansible.
 
 
 ## How to run
-  You can manually 
+The CI Action `.github/workflows/main.yaml` is set to execute on Push, Pull Request and Manual. Remember to push with all variables set!
 
-
+You can also execute Delete Action `.github/workflows/delete.yaml` to tear down the AKS cluster
 ## Resources
 
-[Ansible on Azure](https://learn.microsoft.com/en-us/azure/developer/ansible/overview)
+[MS-Learn: Using Ansible with Azure](https://learn.microsoft.com/en-us/azure/developer/ansible/overview)
 
-[Get Started with Azure](https://docs.ansible.com/ansible/latest/scenario_guides/guide_azure.html)
+[MS-Learn: Introduction to Kubernetes on Azure](https://learn.microsoft.com/en-us/training/paths/intro-to-kubernetes-on-azure/)
 
-[Ansible Playbook](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks.html)
+[Ansible: Get Started with Azure](https://docs.ansible.com/ansible/latest/scenario_guides/guide_azure.html)
 
-[Ansible role azure_preview_modules](https://galaxy.ansible.com/Azure/azure_preview_modules)
+[Ansible: Ansible Playbook](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks.html)
+
+[Ansible: Ansible role azure_preview_modules](https://galaxy.ansible.com/Azure/azure_preview_modules)
 
 [Ansible Galaxy](http://galaxy.ansible.com) 
