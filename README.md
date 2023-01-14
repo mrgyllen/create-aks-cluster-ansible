@@ -37,9 +37,9 @@ Sample playbooks for deploying a basic Azure kubernetes cluster with Ansible.
 
 ```yaml
   vars:
-    resource_group: gyllencreutz-rg
+    resource_group: aks-ansible-rg
     location: northeurope
-    aks_name: gyllencreutz-aks
+    aks_name: aks-ansible
     username: azureuser
     aks_version: 1.25.2
 ```
@@ -51,9 +51,9 @@ The CI Action `.github/workflows/main.yaml` is set to execute on Push, Pull Requ
 You can also execute Delete Action `.github/workflows/delete.yaml` to tear down the AKS cluster
 ## Resources
 
-[MS-Learn: Using Ansible with Azure](https://learn.microsoft.com/en-us/azure/developer/ansible/overview)
-
 [MS-Learn: Introduction to Kubernetes on Azure](https://learn.microsoft.com/en-us/training/paths/intro-to-kubernetes-on-azure/)
+
+[MS-Learn: Using Ansible with Azure](https://learn.microsoft.com/en-us/azure/developer/ansible/overview)
 
 [Ansible: Get Started with Azure](https://docs.ansible.com/ansible/latest/scenario_guides/guide_azure.html)
 
